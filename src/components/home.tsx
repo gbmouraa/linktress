@@ -3,9 +3,11 @@ import { Introduction } from "./introduction";
 
 export const Home = () => {
   return (
-    <div className="w-full" aria-label="Cabeçalho">
-      <Header />
-      <Introduction />
-    </div>
+    <main>
+      <div className="w-full" aria-label="Cabeçalho">
+        <Header />
+        <Introduction />
+      </div>
+    </main>
   );
 };

@@ -5,9 +5,9 @@ export const Introduction = () => {
   return (
     <section
       aria-label="Introdução do site"
-      className="flex w-full justify-center bg-black px-6 pt-10 lg:pb-10"
+      className="flex w-full justify-center bg-black px-6 pt-10 lg:pb-10 xl:px-0"
     >
-      <div className="max-w-7xl lg:flex lg:items-center">
+      <div className="max-w-7xl justify-center lg:flex lg:items-center">
         <div>
           <h1 className="text-center text-3xl font-extrabold text-white lg:text-left lg:text-5xl">
             Divulge seu{" "}
@@ -21,7 +21,7 @@ export const Introduction = () => {
             TikTok, Twitter, Youtube, WhatsApp e outras redes sociais.
           </p>
           <div className="mt-10 flex w-full justify-center lg:justify-normal">
-            <button className="rounded-full bg-white px-4 py-3 text-lg font-bold transition-colors hover:bg-white/80">
+            <button className="rounded-full bg-white px-4 py-3 text-lg font-bold transition-colors hover:bg-white/80 lg:text-2xl">
               <Link to="/register">Criar link na bio</Link>
             </button>
           </div>
