@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  font-family: "Karla", sans-serif;
+}
+
+.logo {
+  font-family: "Montserrat", sans-serif;
+}
