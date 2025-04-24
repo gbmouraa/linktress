@@ -1,3 +1,4 @@
+import { Description } from "./description";
 import { Header } from "./header";
 import { Introduction } from "./introduction";
 
@@ -7,6 +8,7 @@ export const Home = () => {
       <div className="w-full" aria-label="Cabeçalho">
         <Header />
         <Introduction />
+        <Description />
       </div>
     </main>
   );
