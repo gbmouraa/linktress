@@ -1,5 +1,5 @@
 interface DescriptionItemProps {
-  img: string;
+  img?: string;
   title: string;
   text: string;
 }
