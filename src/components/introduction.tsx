@@ -21,9 +21,12 @@ export const Introduction = () => {
             TikTok, Twitter, Youtube, WhatsApp e outras redes sociais.
           </p>
           <div className="mt-10 flex w-full justify-center lg:justify-normal">
-            <button className="rounded-full bg-white px-4 py-3 text-lg font-bold transition-colors hover:bg-white/80 lg:px-6 lg:text-2xl">
-              <Link to="/register">Criar link na bio</Link>
-            </button>
+            <Link
+              to="/register"
+              className="rounded-full bg-white px-4 py-3 text-lg font-bold transition-colors hover:bg-white/80 lg:px-6 lg:text-2xl"
+            >
+              Criar link na bio
+            </Link>
           </div>
         </div>
         <div className="flex h-[460px] w-full justify-center overflow-hidden py-10 lg:h-auto lg:py-0">

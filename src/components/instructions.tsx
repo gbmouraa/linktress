@@ -37,9 +37,12 @@ export const Instructions = () => {
         />
       </div>
       <div className="mt-16 flex items-center justify-center">
-        <button className="rounded-full border bg-white px-6 py-3 text-2xl font-bold text-indigo-600 transition-colors hover:bg-white/80">
-          <Link to="/register">Começar agora</Link>
-        </button>
+        <Link
+          to="/register"
+          className="rounded-full border bg-white px-6 py-3 text-2xl font-bold text-indigo-600 transition-colors hover:bg-white/80"
+        >
+          Começar agora
+        </Link>
       </div>
     </section>
   );

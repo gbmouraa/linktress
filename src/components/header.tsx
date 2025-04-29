@@ -11,9 +11,12 @@ export const Header = () => {
             Linktress
           </span>
         </div>
-        <button className="rounded-xl bg-white px-4 py-2 text-sm font-bold transition-colors hover:bg-white/80 lg:text-lg">
-          <Link to="/login">Entrar</Link>
-        </button>
+        <Link
+          to="/login"
+          className="rounded-xl bg-white px-4 py-2 text-sm font-bold transition-colors hover:bg-white/80 lg:text-lg"
+        >
+          Entrar
+        </Link>
       </header>
     </div>
   );
