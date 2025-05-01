@@ -1,18 +1,46 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { isValidEmail } from "@/utils/email-validation";
+import { auth } from "@/services/firebase-connection";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { PiLinktreeLogoLight } from "react-icons/pi";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import illustration from "../assets/login_illustration.png";
 
 export const Register = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  const navigate = useNavigate();
+
   const isFormValid =
-    email.trim() !== "" &&
+    isValidEmail(email) &&
     password.trim() !== "" &&
     confirmPassword.trim() !== "" &&
     password === confirmPassword;
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      navigate("/dashboard");
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error(error.message);
+        toast.error("Erro ao criar conta. Tente novamente.");
+      } else {
+        console.error("Unknown error:", error);
+        toast.error("Erro desconhecido. Tente novamente.");
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className="md:flex">
@@ -32,7 +60,10 @@ export const Register = () => {
             Crie sua conta para começar a usar o Linktress. É rápido e fácil!
           </p>
         </div>
-        <form className="mx-auto mt-8 w-full max-w-[800px]">
+        <form
+          onSubmit={handleSubmit}
+          className="mx-auto mt-8 w-full max-w-[800px]"
+        >
           <fieldset className="mb-3 flex flex-col gap-y-1">
             <label htmlFor="email" className="text-sm font-medium">
               Email
@@ -46,6 +77,11 @@ export const Register = () => {
               className="rounded-md border border-zinc-300 bg-transparent p-3 font-medium text-zinc-600 outline-none"
               placeholder="Digite seu email"
             />
+            {email && !isValidEmail(email) && (
+              <span className="text-sm text-red-500">
+                Insira um email válido
+              </span>
+            )}
           </fieldset>
           <fieldset className="mb-3 flex flex-col gap-y-1">
             <label htmlFor="password" className="text-sm font-medium">
@@ -74,13 +110,22 @@ export const Register = () => {
               className="rounded-md border border-zinc-300 bg-transparent p-3 font-medium text-zinc-600 outline-none"
               placeholder="Digite sua senha"
             />
+            {password !== confirmPassword && (
+              <span className="text-sm text-red-500">
+                As senhas não são iguais
+              </span>
+            )}
           </fieldset>
           <button
             disabled={!isFormValid}
             type="submit"
-            className={`w-full rounded-full bg-indigo-600 py-4 text-white transition-colors hover:bg-indigo-600/70 ${!isFormValid && "bg-zinc-300 hover:bg-zinc-300"}`}
+            className={`flex w-full justify-center rounded-full bg-indigo-600 py-4 text-white transition-colors hover:bg-indigo-600/70 ${!isFormValid && "bg-zinc-300 hover:bg-zinc-300"}`}
           >
-            Entrar
+            {isLoading ? (
+              <div className="h-6 w-6 animate-spin rounded-full border-4 border-white border-t-transparent"></div>
+            ) : (
+              "Entrar"
+            )}
           </button>
         </form>
         <div className="mt-8 text-center">
