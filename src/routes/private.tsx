@@ -18,8 +18,8 @@ export const Private = ({ children }: PrivateProps) => {
       } else {
         setIsSignedIn(false);
       }
+      setIsLoading(false);
     });
-    setIsLoading(false);
 
     return () => unsub();
   }, []);
