@@ -1,13 +1,41 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { auth } from "@/services/firebase-connection";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { PiLinktreeLogoLight } from "react-icons/pi";
 import { Link } from "react-router-dom";
+import { isValidEmail } from "../utils/email-validation";
 import illustration from "../assets/login_illustration.png";
+import { toast } from "react-toastify";
 
 export const Login = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const isFormValid = email.trim() !== "" && password.trim() !== "";
+  const navigate = useNavigate();
+
+  const isFormValid = isValidEmail(email) && password.trim() !== "";
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      navigate("/dashboard");
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error(error.message);
+        toast.error("Erro ao fazer login. Tente novamente.");
+      } else {
+        console.error("Unknow error:", error);
+        toast.error("Erro desconhecido. Tente novamente.");
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className="md:flex">
@@ -41,6 +69,11 @@ export const Login = () => {
               className="rounded-md border border-zinc-300 bg-transparent p-3 font-medium text-zinc-600 outline-none"
               placeholder="Digite seu email"
             />
+            {email && !isValidEmail(email) && (
+              <span className="text-sm text-red-500">
+                Insira um email válido
+              </span>
+            )}
           </fieldset>
           <fieldset className="mb-3 flex flex-col gap-y-1">
             <label htmlFor="password" className="text-sm font-medium">
@@ -59,9 +92,14 @@ export const Login = () => {
           <button
             disabled={!isFormValid}
             type="submit"
-            className={`w-full rounded-full bg-indigo-600 py-4 text-white transition-colors hover:bg-indigo-600/70 ${!isFormValid && "bg-zinc-300 hover:bg-zinc-300"}`}
+            onClick={handleSubmit}
+            className={`flex w-full justify-center rounded-full bg-indigo-600 py-4 text-white transition-colors hover:bg-indigo-600/70 ${!isFormValid && "bg-zinc-300 hover:bg-zinc-300"}`}
           >
-            Entrar
+            {isLoading ? (
+              <div className="h-6 w-6 animate-spin rounded-full border-4 border-white border-t-transparent"></div>
+            ) : (
+              "Entrar"
+            )}
           </button>
         </form>
         <div className="mt-8 text-center">
