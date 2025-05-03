@@ -3,7 +3,7 @@ import { Home } from "../pages/home";
 import { Login } from "../pages/login";
 import { Register } from "../pages/register";
 import { Private } from "./private";
-import { Dashboard } from "../pages/dashboard";
+import { Admin } from "../pages/admin";
 
 export const AppRoutes = () => {
   return (
@@ -13,10 +13,10 @@ export const AppRoutes = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route
-          path="/dashboard"
+          path="/admin"
           element={
             <Private>
-              <Dashboard />
+              <Admin />
             </Private>
           }
         />
