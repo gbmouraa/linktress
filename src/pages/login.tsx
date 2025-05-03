@@ -23,7 +23,7 @@ export const Login = () => {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      navigate("/dashboard");
+      navigate("/admin");
     } catch (error) {
       if (error instanceof Error) {
         console.error(error.message);

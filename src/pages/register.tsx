@@ -28,7 +28,7 @@ export const Register = () => {
 
     try {
       await createUserWithEmailAndPassword(auth, email, password);
-      navigate("/dashboard");
+      navigate("/admin");
     } catch (error) {
       if (error instanceof Error) {
         console.error(error.message);
