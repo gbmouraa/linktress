@@ -1,3 +1,5 @@
+import { useContext } from "react";
+import { UserContext } from "../contexts/user-context";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -20,6 +22,8 @@ import pencilIcon from "@/assets/menu-icons/edit_sdwc_menu.svg";
 import exitIcon from "@/assets/menu-icons/logout_menu.svg";
 
 export function DropdownMenuAdminHeader() {
+  const { username } = useContext(UserContext);
+
   const handleLogout = async () => {
     try {
       await signOut(auth);
@@ -37,19 +41,19 @@ export function DropdownMenuAdminHeader() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button className="bg-transparent p-0 shadow-none outline-none">
-          {/* Adiionar foto do usuário */}
+          {/* TODO: Adicionar foto do usuário */}
           <div className="flex items-center gap-x-2">
             <FaUserCircle size={36} className="text-zinc-200" />
             <MdOutlineKeyboardArrowDown color="#000" size={24} />
           </div>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-[320px] -translate-x-6 translate-y-5">
+      <DropdownMenuContent className="w-[320px] -translate-x-6 translate-y-5 p-4">
         <DropdownMenuLabel>
           <div className="flex flex-col items-center justify-center space-y-2">
             {/* TODO: adiconar foto e nome do usuário */}
             <FaUserCircle size={36} className="text-zinc-200" />
-            <span>Gabriel</span>
+            <span>{username}</span>
             <div className="flex items-center justify-center gap-x-5">
               <Link to="" className="text-sm font-normal underline">
                 linktress/gbmoura
