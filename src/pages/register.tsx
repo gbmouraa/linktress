@@ -1,23 +1,49 @@
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { isValidEmail } from "@/utils/email-validation";
+import { addUserToFirebase, getUserNamesInCollection } from "@/utils/firebase";
 import { auth } from "@/services/firebase-connection";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { PiLinktreeLogoLight } from "react-icons/pi";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import illustration from "../assets/login_illustration.png";
+import { UserContext } from "../contexts/user-context";
+import { LoginTitle } from "../components/login-title";
+import { LoginIllustration } from "../components/login-illustration";
 
 export const Register = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("");
+  const [isUsernameAvailable, setIsUserNameAvailable] = useState(true);
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  const { changeUid, changeUserName } = useContext(UserContext);
+
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (username.trim() !== "") {
+      validateUsername();
+    }
+  }, [username]);
+
+  const userNameIsAvailable = async () => {
+    const userNamesList = await getUserNamesInCollection();
+    if (userNamesList.indexOf(username) !== -1) {
+      return false;
+    }
+    return true;
+  };
+
+  const validateUsername = async () => {
+    const isAvailable = await userNameIsAvailable();
+    setIsUserNameAvailable(isAvailable);
+  };
 
   const isFormValid =
     isValidEmail(email) &&
+    isUsernameAvailable &&
     password.trim() !== "" &&
     confirmPassword.trim() !== "" &&
     password === confirmPassword;
@@ -27,7 +53,14 @@ export const Register = () => {
     setIsLoading(true);
 
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      const userData = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      );
+      changeUid(userData.user.uid);
+      changeUserName(username);
+      await addUserToFirebase(username, userData.user.uid, email);
       navigate("/admin");
     } catch (error) {
       if (error instanceof Error) {
@@ -45,21 +78,10 @@ export const Register = () => {
   return (
     <div className="md:flex">
       <div className="min-h-screen flex-1 bg-zinc-50 px-6 py-10 md:px-20 md:py-16">
-        <div className="logo mx-auto flex max-w-[800px] items-center">
-          <PiLinktreeLogoLight
-            color="#000"
-            className="text-[60px] md:text-[48px]"
-          />
-          <span className="logo select-none text-4xl font-light md:text-3xl">
-            Linktress
-          </span>
-        </div>
-        <div className="mt-8 md:text-center">
-          <h1 className="text-3xl font-bold">Crie sua conta</h1>
-          <p className="text-zinc-600">
-            Crie sua conta para começar a usar o Linktress. É rápido e fácil!
-          </p>
-        </div>
+        <LoginTitle
+          title="Crie sua conta"
+          subTitle="Crie sua conta para começar a usar o Linktress. É rápido e fácil!"
+        />
         <form
           onSubmit={handleSubmit}
           className="mx-auto mt-8 w-full max-w-[800px]"
@@ -80,6 +102,26 @@ export const Register = () => {
             {email && !isValidEmail(email) && (
               <span className="text-sm text-red-500">
                 Insira um email válido
+              </span>
+            )}
+          </fieldset>
+          <fieldset className="mb-3 flex flex-col gap-y-1">
+            <label htmlFor="email" className="text-sm font-medium">
+              Nome de usuário
+            </label>
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              id="username"
+              name="username"
+              className="rounded-md border border-zinc-300 bg-transparent p-3 font-medium text-zinc-600 outline-none"
+              placeholder="Digite um nome de usuário"
+            />
+
+            {!isUsernameAvailable && (
+              <span className="text-sm text-red-500">
+                Nome de usuário já está em uso
               </span>
             )}
           </fieldset>
@@ -137,22 +179,7 @@ export const Register = () => {
           </p>
         </div>
       </div>
-      <div className="hidden w-[35%] flex-col bg-black md:flex">
-        <figure className="pb-20 pt-10">
-          <img src={illustration} alt="Imagem ilustrativa" />
-          <figcaption className="sr-only">
-            Imagem ilustrativa de usuários fictícios do linktress.
-          </figcaption>
-        </figure>
-        <div className="ml-8">
-          <h2 className="block max-w-[260px] text-[32px] font-bold text-white">
-            O link mais poderoso para sua bio
-          </h2>
-          <small className="mt-[35px] block max-w-[230px] text-sm font-medium text-zinc-300">
-            Crie sua loja de criador. Possua e aumente seu público.
-          </small>
-        </div>
-      </div>
+      <LoginIllustration />
     </div>
   );
 };
