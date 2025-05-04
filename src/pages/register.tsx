@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { isValidEmail } from "@/utils/email-validation";
 import { addUserToFirebase, getUserNamesInCollection } from "@/utils/firebase";
 import { auth } from "@/services/firebase-connection";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { UserContext } from "../contexts/user-context";
@@ -53,14 +53,21 @@ export const Register = () => {
     setIsLoading(true);
 
     try {
-      const userData = await createUserWithEmailAndPassword(
+      const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
         password,
       );
-      changeUid(userData.user.uid);
+
+      const user = userCredential.user;
+
+      await addUserToFirebase(username, user.uid, email);
+      await updateProfile(user, {
+        displayName: username,
+      });
+
+      changeUid(user.uid);
       changeUserName(username);
-      await addUserToFirebase(username, userData.user.uid, email);
       navigate("/admin");
     } catch (error) {
       if (error instanceof Error) {

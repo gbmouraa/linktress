@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { UserContext } from "../contexts/user-context";
 import { LoginTitle } from "../components/login-title";
 import { useNavigate } from "react-router-dom";
 import { auth } from "@/services/firebase-connection";
@@ -13,6 +14,7 @@ export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const { changeUserName, changeUid } = useContext(UserContext);
   const navigate = useNavigate();
 
   const isFormValid = isValidEmail(email) && password.trim() !== "";
@@ -22,7 +24,15 @@ export const Login = () => {
     setIsLoading(true);
 
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      const userCrendital = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      );
+      const user = userCrendital.user;
+
+      changeUserName(user.displayName!);
+      changeUid(user.uid);
       navigate("/admin");
     } catch (error) {
       if (error instanceof Error) {
