@@ -2,6 +2,7 @@ import { useState, ReactNode, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import { auth } from "@/services/firebase-connection";
 import { onAuthStateChanged } from "firebase/auth";
+import { LoadingAnimation } from "../components/loading-animation";
 
 interface PrivateProps {
   children: ReactNode;
@@ -25,16 +26,7 @@ export const Private = ({ children }: PrivateProps) => {
   }, []);
 
   if (isLoading) {
-    return (
-      <div className="flex min-h-screen w-full items-center bg-white">
-        <ul className="spinner">
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-        </ul>
-      </div>
-    );
+    return <LoadingAnimation />;
   }
 
   if (!isSignedIn) {
