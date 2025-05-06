@@ -4,6 +4,8 @@ import { Login } from "../pages/login";
 import { Register } from "../pages/register";
 import { Private } from "./private";
 import { Admin } from "../pages/admin";
+import { ProfileRoute } from "./profile-route";
+import { Profile } from "../pages/profile";
 
 export const AppRoutes = () => {
   return (
@@ -18,6 +20,14 @@ export const AppRoutes = () => {
             <Private>
               <Admin />
             </Private>
+          }
+        />
+        <Route
+          path="/profile/:profile"
+          element={
+            <ProfileRoute>
+              <Profile />
+            </ProfileRoute>
           }
         />
       </Routes>
