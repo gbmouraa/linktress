@@ -1,6 +1,6 @@
 import { db } from "../services/firebase-connection";
 import { setDoc, doc, getDocs, collection } from "firebase/firestore";
-
+// função para adicionar os dados do usuário na collection "users"
 export const addUserToFirebase = async (
   username: string,
   uid: string,
