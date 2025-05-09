@@ -1,6 +1,21 @@
 import { db } from "../services/firebase-connection";
 import { setDoc, doc, getDocs, collection, getDoc } from "firebase/firestore";
 
+export type UserDataType = {
+  uid: string;
+  username: string;
+  email: string;
+  linkColor: string;
+  linkBg: string;
+  pageBg: string;
+  profileImageURL: string;
+  name: string;
+  bio: string;
+  facebookURL: string;
+  tiktokURL: string;
+  youtubeURL: string;
+};
+
 // função para adicionar os dados do usuário na collection "users"
 export const addUserToFirebase = async (
   username: string,
@@ -36,13 +51,15 @@ export const getUserNamesInCollection = async (): Promise<string[]> => {
   }
 };
 
-export const getUserProfile = async (username: string) => {
+export const getUserProfile = async (
+  username: string,
+): Promise<UserDataType | null> => {
   const docRef = doc(db, "users", username);
 
-  try {
-    const snapshot = await getDoc(docRef);
-    return snapshot.data();
-  } catch (error) {
-    console.error("Não foi possivél carregar este perfil:", error);
+  const snapshot = await getDoc(docRef);
+  if (snapshot.exists()) {
+    return snapshot.data() as UserDataType;
+  } else {
+    return null;
   }
 };
