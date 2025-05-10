@@ -9,9 +9,9 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Ellipsis } from "lucide-react";
-import { FaRegCopy } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import { Link } from "react-router-dom";
+import { CopyProfileLinkButton } from "../components/copy-profile-link-button";
 
 interface AlertDialogProfilePageProps {
   username?: string;
@@ -47,11 +47,8 @@ export const AlertDialogProfilePage = ({
             {/* <img src="" alt="" /> */}
           </div>
           <span className="text-xs font-bold">{username}</span>
-          {/* TODO: adiocioanr funcionalidade para copiar o link */}
-          <button className="flex w-full items-center justify-center gap-x-3 rounded-xl bg-zinc-100 py-4 text-xs font-bold transition-colors hover:bg-zinc-200">
-            {profileURL}
-            <FaRegCopy />
-          </button>
+          {/* TODO: adiocionar funcionalidade para copiar o link */}
+          <CopyProfileLinkButton profileURL={profileURL!} />
         </div>
         <div className="rounded-xl bg-zinc-100 p-4 text-center">
           <span className="text-center text-xs font-bold">
