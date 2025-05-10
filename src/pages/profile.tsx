@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { getUserProfile, UserDataType } from "../utils/firebase";
 import { PiLinktreeLogoLight } from "react-icons/pi";
 import { AlertDialogProfilePage } from "../components/alert-dialog-profile-page";
+import { FaUserCircle } from "react-icons/fa";
 
 export const Profile = () => {
   const [userData, setUserData] = useState<UserDataType | null>();
@@ -43,6 +44,24 @@ export const Profile = () => {
             />
           </div>
         </header>
+        <main className="flex flex-col items-center py-10">
+          <div className="text-center">
+            {userData?.profileImageURL !== "" ? (
+              <img
+                src={userData?.profileImageURL}
+                alt="profile image"
+                className="h-24 w-24 rounded-full"
+              />
+            ) : (
+              <FaUserCircle size={96} className="text-zinc-100" />
+            )}
+            <span className="mt-3 inline-block text-2xl font-bold text-white">
+              {userData?.name !== "" ? userData?.name : userData.username}
+            </span>
+          </div>
+          {/* Links */}
+          <div>{/* userData?.links.length > 0 && */}</div>
+        </main>
       </section>
     </div>
   );
