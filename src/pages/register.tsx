@@ -52,6 +52,8 @@ export const Register = () => {
     e.preventDefault();
     setIsLoading(true);
 
+    let isMounted = true;
+
     try {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
@@ -66,9 +68,11 @@ export const Register = () => {
         displayName: username,
       });
 
-      changeUid(user.uid);
-      changeUserName(username);
-      navigate("/admin");
+      if (isMounted) {
+        changeUid(user.uid);
+        changeUserName(username);
+        navigate("/admin");
+      }
     } catch (error) {
       if (error instanceof Error) {
         console.error(error.message);
@@ -78,8 +82,14 @@ export const Register = () => {
         toast.error("Erro desconhecido. Tente novamente.");
       }
     } finally {
-      setIsLoading(false);
+      if (isMounted) {
+        setIsLoading(false);
+      }
     }
+
+    return () => {
+      isMounted = false;
+    };
   };
 
   return (
