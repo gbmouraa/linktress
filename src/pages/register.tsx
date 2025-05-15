@@ -5,7 +5,7 @@ import { addUserToFirebase, getUserNamesInCollection } from "@/utils/firebase";
 import { auth } from "@/services/firebase-connection";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import { UserContext } from "../contexts/user-context";
 import { LoginTitle } from "../components/login-title";
 import { LoginIllustration } from "../components/login-illustration";
@@ -75,13 +75,14 @@ export const Register = () => {
       userStorage(userData);
       navigate("/admin");
     } catch (error) {
-      if (error instanceof Error) {
-        console.error(error.message);
-        toast.error("Erro ao criar conta. Tente novamente.");
-      } else {
-        console.error("Unknown error:", error);
-        toast.error("Erro desconhecido. Tente novamente.");
-      }
+      console.error(error);
+      toast("Ops, algo deu errado", {
+        description: "Não foi possível criar sua conta, tente novamente",
+        action: {
+          label: "Entendi",
+          onClick: () => {},
+        },
+      });
     } finally {
       setIsLoading(false);
     }

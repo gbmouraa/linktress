@@ -6,7 +6,7 @@ import { auth } from "@/services/firebase-connection";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { Link } from "react-router-dom";
 import { isValidEmail } from "../utils/email-validation";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import { LoginIllustration } from "../components/login-illustration";
 import { getUserProfile } from "../utils/firebase";
 
@@ -46,13 +46,14 @@ export const Login = () => {
       userStorage(userData);
       navigate("/admin");
     } catch (error) {
-      if (error instanceof Error) {
-        console.error(error.message);
-        toast.error("Erro ao fazer login. Tente novamente.");
-      } else {
-        console.error("Unknow error:", error);
-        toast.error("Erro desconhecido. Tente novamente.");
-      }
+      console.error(error);
+      toast("Ops, algo deu errado", {
+        description: "Não foi possível acessar sua conta, tente novamente",
+        action: {
+          label: "Entendi",
+          onClick: () => {},
+        },
+      });
     } finally {
       setIsLoading(false);
     }
