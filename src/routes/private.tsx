@@ -1,7 +1,6 @@
-import { useState, ReactNode, useEffect } from "react";
+import { ReactNode, useContext } from "react";
+import { UserContext } from "../contexts/user-context";
 import { Navigate } from "react-router-dom";
-import { auth } from "@/services/firebase-connection";
-import { onAuthStateChanged } from "firebase/auth";
 import { LoadingAnimation } from "../components/loading-animation";
 
 interface PrivateProps {
@@ -9,27 +8,13 @@ interface PrivateProps {
 }
 
 export const Private = ({ children }: PrivateProps) => {
-  const [isSignedIn, setIsSignedIn] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const { user, isLoadingUser } = useContext(UserContext);
 
-  useEffect(() => {
-    const unsub = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setIsSignedIn(true);
-      } else {
-        setIsSignedIn(false);
-      }
-      setIsLoading(false);
-    });
-
-    return () => unsub();
-  }, []);
-
-  if (isLoading) {
+  if (isLoadingUser) {
     return <LoadingAnimation />;
   }
 
-  if (!isSignedIn) {
+  if (!user) {
     return <Navigate to={"/"} />;
   }
 
