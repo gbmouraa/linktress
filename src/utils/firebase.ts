@@ -1,20 +1,6 @@
 import { db } from "../services/firebase-connection";
 import { setDoc, doc, getDocs, collection, getDoc } from "firebase/firestore";
-
-export type UserDataType = {
-  uid: string;
-  username: string;
-  email: string;
-  linkColor: string;
-  linkBg: string;
-  pageBg: string;
-  profileImageURL: string;
-  name: string;
-  bio: string;
-  facebookURL: string;
-  tiktokURL: string;
-  youtubeURL: string;
-};
+import { UserProfileType } from "../types";
 
 // função para adicionar os dados do usuário na collection "users"
 export const addUserToFirebase = async (
@@ -22,19 +8,23 @@ export const addUserToFirebase = async (
   uid: string,
   email: string,
 ) => {
-  await setDoc(doc(db, "users", username), {
+  const userProfileData = {
     uid: uid,
     username: username,
     email: email,
     linkColor: "#000",
     linkBg: "#fff",
     pageBg: "#000",
-    profileImageURL: "",
-    name: "",
-    bio: "",
-    facebookURL: "",
-    tiktokURL: "",
-    youtubeURL: "",
+    profileImageURL: null,
+    name: null,
+    bio: null,
+    facebookURL: null,
+    tiktokURL: null,
+    youtubeURL: null,
+  };
+
+  await setDoc(doc(db, "users", username), {
+    ...userProfileData,
   });
 };
 
@@ -51,14 +41,11 @@ export const getUserNamesInCollection = async (): Promise<string[]> => {
   }
 };
 
-export const getUserProfile = async (
-  username: string,
-): Promise<UserDataType | null> => {
+export const getUserProfile = async (username: string) => {
   const docRef = doc(db, "users", username);
-
   const snapshot = await getDoc(docRef);
   if (snapshot.exists()) {
-    return snapshot.data() as UserDataType;
+    return snapshot.data() as UserProfileType;
   } else {
     return null;
   }
