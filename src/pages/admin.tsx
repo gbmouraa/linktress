@@ -6,7 +6,7 @@ import { FaUserCircle } from "react-icons/fa";
 import { CopyProfileLinkButton } from "../components/copy-profile-link-button";
 
 export const Admin = () => {
-  const { username, profileImageURL } = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
   return (
     <div>
@@ -17,9 +17,9 @@ export const Admin = () => {
           <h1 className="text-lg font-medium md:text-2xl">Sua Página</h1>
           <div className="flex w-full flex-col items-center gap-y-4 rounded-xl bg-gradient-to-r from-redGradient to-purpleGradient px-4 py-10">
             <div className="mb-2">
-              {profileImageURL !== null ? (
+              {user!.profileImageURL ? (
                 <img
-                  src={profileImageURL}
+                  src={user!.profileImageURL}
                   alt="Imagem de perfil"
                   className="h-10 w-10 rounded-full object-cover md:h-[70px] md:w-[70px]"
                 />
@@ -32,7 +32,7 @@ export const Admin = () => {
             </span>
             {/* TODO: adionar link após o deploy */}
             <CopyProfileLinkButton
-              profileURL={`https://linktress/${username}`}
+              profileURL={`https://linktress/${user!.username}`}
             />
           </div>
         </main>
