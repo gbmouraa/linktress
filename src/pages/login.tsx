@@ -8,13 +8,15 @@ import { Link } from "react-router-dom";
 import { isValidEmail } from "../utils/email-validation";
 import { toast } from "react-toastify";
 import { LoginIllustration } from "../components/login-illustration";
+import { getUserProfile } from "../utils/firebase";
 
 export const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { changeUserName, changeUid } = useContext(UserContext);
+  const { changeUser, userStorage } = useContext(UserContext);
+
   const navigate = useNavigate();
 
   const isFormValid = isValidEmail(email) && password.trim() !== "";
@@ -31,8 +33,17 @@ export const Login = () => {
       );
       const user = userCrendital.user;
 
-      changeUserName(user.displayName!);
-      changeUid(user.uid);
+      const snapshot = await getUserProfile(user.displayName!);
+
+      const userData = {
+        uid: user.uid,
+        username: user.displayName,
+        name: snapshot!.name,
+        profileImageURL: snapshot!.profileImageURL,
+      };
+
+      changeUser(userData);
+      userStorage(userData);
       navigate("/admin");
     } catch (error) {
       if (error instanceof Error) {

@@ -18,7 +18,7 @@ export const Register = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const { changeUid, changeUserName } = useContext(UserContext);
+  const { changeUser, userStorage } = useContext(UserContext);
 
   const navigate = useNavigate();
 
@@ -52,8 +52,6 @@ export const Register = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    let isMounted = true;
-
     try {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
@@ -64,15 +62,18 @@ export const Register = () => {
       const user = userCredential.user;
 
       await addUserToFirebase(username, user.uid, email);
-      await updateProfile(user, {
-        displayName: username,
-      });
+      await updateProfile(auth.currentUser!, { displayName: username });
 
-      if (isMounted) {
-        changeUid(user.uid);
-        changeUserName(username);
-        navigate("/admin");
-      }
+      const userData = {
+        uid: user.uid,
+        username: username,
+        name: null,
+        profileImageURL: null,
+      };
+
+      changeUser(userData);
+      userStorage(userData);
+      navigate("/admin");
     } catch (error) {
       if (error instanceof Error) {
         console.error(error.message);
@@ -82,14 +83,8 @@ export const Register = () => {
         toast.error("Erro desconhecido. Tente novamente.");
       }
     } finally {
-      if (isMounted) {
-        setIsLoading(false);
-      }
+      setIsLoading(false);
     }
-
-    return () => {
-      isMounted = false;
-    };
   };
 
   return (
