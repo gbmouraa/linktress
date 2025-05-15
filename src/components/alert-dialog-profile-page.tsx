@@ -12,15 +12,18 @@ import { Ellipsis } from "lucide-react";
 import { IoMdClose } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { CopyProfileLinkButton } from "../components/copy-profile-link-button";
+import { FaUserCircle } from "react-icons/fa";
 
 interface AlertDialogProfilePageProps {
   username?: string;
   profileURL?: string;
+  profileImgURL?: string | null;
 }
 
 export const AlertDialogProfilePage = ({
   username,
   profileURL,
+  profileImgURL,
 }: AlertDialogProfilePageProps) => {
   return (
     <AlertDialog>
@@ -42,10 +45,14 @@ export const AlertDialogProfilePage = ({
           </AlertDialogDescription>
         </AlertDialogHeader>
         <div className="flex flex-col items-center gap-y-3 rounded-xl border border-zinc-200 p-4 shadow-sm">
-          <div className="h-16 w-16 rounded-full border border-zinc-200">
-            {/* TODO: adicionar foto de perfil */}
-            {/* <img src="" alt="" /> */}
-          </div>
+          {profileImgURL ? (
+            <img
+              src={profileImgURL}
+              className="h-16 w-16 rounded-full object-cover"
+            />
+          ) : (
+            <FaUserCircle size={64} />
+          )}
           <span className="text-xs font-bold">{username}</span>
           {/* TODO: adiocionar funcionalidade para copiar o link */}
           <CopyProfileLinkButton profileURL={profileURL!} />
@@ -66,7 +73,7 @@ export const AlertDialogProfilePage = ({
               variant={"outline"}
               className="w-full rounded-full border-black text-xs font-bold hover:bg-zinc-50"
             >
-              <Link to="/admin/edit">Editar minha página</Link>
+              <Link to="/admin/edit-page">Editar minha página</Link>
             </Button>
           </div>
         </div>

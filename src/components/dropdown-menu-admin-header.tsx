@@ -22,11 +22,13 @@ import pencilIcon from "@/assets/menu-icons/edit_sdwc_menu.svg";
 import exitIcon from "@/assets/menu-icons/logout_menu.svg";
 
 export function DropdownMenuAdminHeader() {
-  const { username, profileImageURL } = useContext(UserContext);
+  const { user, changeUser } = useContext(UserContext);
 
   const handleLogout = async () => {
     try {
       await signOut(auth);
+      localStorage.removeItem("@linktress");
+      changeUser(null);
       console.log("Logout successful");
     } catch (error) {
       if (error instanceof Error) {
@@ -42,9 +44,9 @@ export function DropdownMenuAdminHeader() {
       <DropdownMenuTrigger asChild>
         <Button className="bg-transparent p-0 shadow-none outline-none">
           <div className="flex items-center gap-x-2">
-            {profileImageURL ? (
+            {user?.profileImageURL ? (
               <img
-                src={profileImageURL}
+                src={user.profileImageURL}
                 className="h-9 w-9 rounded-full object-cover"
               />
             ) : (
@@ -57,19 +59,19 @@ export function DropdownMenuAdminHeader() {
       <DropdownMenuContent className="w-[320px] -translate-x-6 translate-y-5 p-4">
         <DropdownMenuLabel>
           <div className="flex flex-col items-center justify-center space-y-2">
-            {profileImageURL ? (
+            {user?.profileImageURL ? (
               <img
-                src={profileImageURL}
+                src={user.profileImageURL}
                 className="h-9 w-9 rounded-full object-cover"
               />
             ) : (
               <FaUserCircle size={36} className="text-zinc-200" />
             )}
             {/* TODO: adiconar nome do usuário */}
-            <span>{username}</span>
+            <span>{user!.username}</span>
             <div className="flex items-center justify-center gap-x-5">
               <Link to="" className="text-sm font-normal underline">
-                linktress/gbmoura
+                {`/linktress/${user?.username}`}
               </Link>
               {/* TODO: add funcionalidade para copiar a url do perfil */}
               <button>

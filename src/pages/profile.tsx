@@ -1,33 +1,41 @@
 import { useEffect, useState } from "react";
+import { LoadingAnimation } from "../components/loading-animation";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { getUserProfile, UserDataType } from "../utils/firebase";
+import { getUserProfile } from "../utils/firebase";
 import { PiLinktreeLogoLight } from "react-icons/pi";
 import { AlertDialogProfilePage } from "../components/alert-dialog-profile-page";
 import { FaUserCircle } from "react-icons/fa";
+import { UserProfileType } from "../types";
 
 export const Profile = () => {
-  const [userData, setUserData] = useState<UserDataType | null>();
-
+  const [profileData, setProfileData] = useState<UserProfileType | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const { profile } = useParams();
+
   const navigate = useNavigate();
 
   useEffect(() => {
-    const loadData = async () => {
+    const getProfile = async () => {
       const data = await getUserProfile(profile!);
       if (data) {
-        setUserData(data);
+        setProfileData(data);
+        setIsLoading(false);
       } else {
+        setIsLoading(false);
         navigate("/");
       }
     };
-
-    loadData();
+    getProfile();
   }, [profile, navigate]);
+
+  if (isLoading) {
+    return <LoadingAnimation />;
+  }
 
   return (
     <div
       className="h-screen w-full pt-5"
-      style={{ backgroundColor: userData?.pageBg || "#ffffff" }}
+      style={{ backgroundColor: profileData?.pageBg || "#ffffff" }}
     >
       <section
         aria-label="Página do usuário"
@@ -39,24 +47,27 @@ export const Profile = () => {
               <PiLinktreeLogoLight color="#fff" size={40} />
             </Link>
             <AlertDialogProfilePage
-              username={userData?.username}
-              profileURL="https://linktress/profile/gabriel"
+              username={profileData?.username}
+              profileImgURL={profileData?.profileImageURL}
+              profileURL={`"https://linktress/${profileData?.username}`}
             />
           </div>
         </header>
         <main className="flex flex-col items-center py-10">
           <div className="text-center">
-            {userData?.profileImageURL !== "" ? (
+            {profileData?.profileImageURL ? (
               <img
-                src={userData?.profileImageURL}
+                src={profileData?.profileImageURL}
                 alt="profile image"
-                className="h-24 w-24 rounded-full"
+                className="h-24 w-24 rounded-full object-cover"
               />
             ) : (
               <FaUserCircle size={96} className="text-zinc-100" />
             )}
             <span className="mt-3 inline-block text-2xl font-bold text-white">
-              {userData?.name !== "" ? userData?.name : userData.username}
+              {profileData?.name !== ""
+                ? profileData?.name
+                : profileData.username}
             </span>
           </div>
           {/* Links */}
