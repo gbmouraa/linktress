@@ -6,6 +6,9 @@ import { Private } from "./private";
 import { Admin } from "../pages/admin";
 import { ProfileRoute } from "./profile-route";
 import { Profile } from "../pages/profile";
+import { EditPage } from "../pages/edit-page";
+import { CustomizePage } from "../pages/customize-page";
+import { NotFound } from "../pages/not-found";
 
 export const AppRoutes = () => {
   return (
@@ -23,13 +26,30 @@ export const AppRoutes = () => {
           }
         />
         <Route
-          path="/profile/:profile"
+          path="/linktress/:profile"
           element={
             <ProfileRoute>
               <Profile />
             </ProfileRoute>
           }
         />
+        <Route
+          path="/admin/edit-page"
+          element={
+            <Private>
+              <EditPage />
+            </Private>
+          }
+        />
+        <Route
+          path="/admin/customize-page"
+          element={
+            <Private>
+              <CustomizePage />
+            </Private>
+          }
+        />
+        <Route path="/*" element={<NotFound />} />
       </Routes>
     </div>
   );
