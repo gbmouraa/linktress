@@ -1,44 +1,36 @@
-import { useState, ReactNode } from "react";
+import { useState, ReactNode, useEffect } from "react";
 import { UserContext } from "./user-context";
+import { UserType } from "../types";
 
 interface UserContextProviderProps {
   children: ReactNode;
 }
 
 export const UserContextProvider = ({ children }: UserContextProviderProps) => {
-  const [uid, setUid] = useState("");
-  const [username, setUsername] = useState("");
-  const [name, setName] = useState("");
-  const [profileImageURL, setProfileImageURL] = useState<null | string>(null);
+  const [user, setUser] = useState<UserType | null>(null);
+  const [isLoadingUser, setIsLoadingUser] = useState(true);
 
-  const changeUid = (uid: string) => {
-    setUid(uid);
+  useEffect(() => {
+    const userStorage = localStorage.getItem("@linktress");
+
+    if (userStorage) {
+      setUser(JSON.parse(userStorage) as UserType);
+    }
+
+    setIsLoadingUser(false);
+  }, []);
+
+  const changeUser = (userData: UserType | null) => {
+    setUser(userData);
   };
 
-  const changeUserName = (username: string) => {
-    setUsername(username);
-  };
-
-  const changeName = (name: string) => {
-    setName(name);
-  };
-
-  const changeProfileImageURL = (url: string) => {
-    setProfileImageURL(url);
+  const userStorage = (user: UserType) => {
+    localStorage.setItem("@linktress", JSON.stringify(user));
   };
 
   return (
     <UserContext.Provider
-      value={{
-        uid,
-        changeUid,
-        username,
-        changeUserName,
-        name,
-        changeName,
-        profileImageURL,
-        changeProfileImageURL,
-      }}
+      value={{ user, changeUser, userStorage, isLoadingUser }}
     >
       {children}
     </UserContext.Provider>

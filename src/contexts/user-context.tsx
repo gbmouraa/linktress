@@ -1,14 +1,12 @@
 import { createContext } from "react";
+import { UserType } from "../types";
 
 export type UserContextData = {
-  uid: string;
-  changeUid: (uid: string) => void;
-  username: string;
-  changeUserName: (username: string) => void;
-  name: string;
-  changeName: (name: string) => void;
-  profileImageURL: string | null;
-  changeProfileImageURL: (url: string) => void;
+  user: UserType | null;
+  changeUser: (userData: UserType | null) => void;
+  // função para alterar dados no localStorage
+  userStorage: (user: UserType) => void;
+  isLoadingUser: boolean;
 };
 
 export const UserContext = createContext({} as UserContextData);
