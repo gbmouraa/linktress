@@ -1,4 +1,4 @@
-import { useState, useContext, FormEvent, useRef } from "react";
+import { useState, useContext, FormEvent, useRef, useEffect } from "react";
 import { UserContext } from "../contexts/user-context";
 import { storage, db } from "../services/firebase-connection";
 import { doc, setDoc } from "firebase/firestore";
@@ -21,20 +21,33 @@ import { FaUserCircle } from "react-icons/fa";
 import { UserProfileType } from "../types";
 
 interface EditHeaderProps {
-  data: UserProfileType | null;
+  data: UserProfileType;
 }
 
 export const EditPageHeader = ({ data }: EditHeaderProps) => {
+  const { user, changeUser, userStorage } = useContext(UserContext);
+
   const [profileImgPreview, setProfileImagePreview] = useState<null | string>(
     null,
   );
   const [image, setImage] = useState<null | File>(null);
   const [removeImgFromDB, setRemoveImgFromDB] = useState(false);
   const [isSending, setIsSending] = useState(false);
+  const [profileName, setProfileName] = useState(data?.name || "");
+  const [bio, setBio] = useState(data?.bio || "");
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  const { user, changeUser, userStorage } = useContext(UserContext);
+  useEffect(() => {
+    setProfileName(data?.name || "");
+    setBio(data?.bio || "");
+  }, [data]);
+
+  const isProfileNameChanged = profileName !== (data?.name || "");
+  const isBioChanged = bio !== (data?.bio || "");
+
+  const isFormChanged =
+    !!profileImgPreview || isProfileNameChanged || isBioChanged;
 
   const handleFile = (item: React.ChangeEvent<HTMLInputElement>) => {
     if (item.target.files && item.target.files[0]) {
@@ -51,6 +64,8 @@ export const EditPageHeader = ({ data }: EditHeaderProps) => {
   };
 
   const handleUpload = async () => {
+    if (!profileImgPreview) return;
+
     const uploadRef = ref(
       storage,
       `profile-images/${user!.uid}/${image!.name}`,
@@ -74,14 +89,34 @@ export const EditPageHeader = ({ data }: EditHeaderProps) => {
     }
   };
 
+  const updateProfileNameAndBio = async () => {
+    if (profileName.trim() === "" && bio.trim() === "") return;
+
+    if (user?.username) {
+      try {
+        await setDoc(
+          doc(db, "users", user.username),
+          {
+            name: profileName,
+            bio: bio,
+          },
+          { merge: true },
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setIsSending(true);
 
     try {
       await handleUpload();
+      await updateProfileNameAndBio();
       toast("Sucesso", {
-        description: "Sua foto de perfil foi atualizada",
+        description: "Seu perfil foi atualizado",
         action: {
           label: "Entendi",
           onClick: () => {},
@@ -89,7 +124,7 @@ export const EditPageHeader = ({ data }: EditHeaderProps) => {
       });
       setProfileImagePreview(null);
     } catch (error) {
-      console.error("Não foi póssivel atualizar sua imagem:", error);
+      console.error("Não foi póssivel atualizar seu perfil:", error);
     } finally {
       setIsSending(false);
     }
@@ -152,7 +187,7 @@ export const EditPageHeader = ({ data }: EditHeaderProps) => {
         </AccordionTrigger>
         <AccordionContent>
           <form className="mt-6" onSubmit={handleSubmit}>
-            <fieldset>
+            <fieldset className="mb-6">
               <span className="text-base font-medium">Foto de Perfil</span>
               <div className="mt-4 flex gap-x-4">
                 <div>
@@ -195,20 +230,48 @@ export const EditPageHeader = ({ data }: EditHeaderProps) => {
                       "Remover"
                     )}
                   </button>
-                  <button
-                    type="submit"
-                    className="ml-auto mt-3 block min-w-[90px] rounded-full bg-indigo-600 px-6 py-[10px] text-white disabled:cursor-not-allowed"
-                    disabled={isSending || !profileImgPreview}
-                  >
-                    {isSending ? (
-                      <div className="mx-auto h-5 w-5 animate-spin rounded-full border-4 border-white border-t-transparent"></div>
-                    ) : (
-                      "Enviar"
-                    )}
-                  </button>
                 </div>
               </div>
             </fieldset>
+            <fieldset className="mb-3">
+              <label
+                htmlFor="profile-name"
+                className="mb-2 block text-base font-medium"
+              >
+                Nome do perfil
+              </label>
+              <input
+                type="text"
+                id="profile-name"
+                className="w-full rounded-lg border border-zinc-300 bg-white px-2 py-3 focus:border-2 focus:border-black"
+                placeholder="Digite o nome do seu perfil"
+                value={profileName}
+                onChange={(e) => setProfileName(e.target.value)}
+              />
+            </fieldset>
+            <fieldset>
+              <label htmlFor="bio" className="mb-2 block text-base font-medium">
+                Bio
+              </label>
+              <textarea
+                id="bio"
+                className="max-h-[200px] min-h-[150px] w-full rounded-lg border border-zinc-300 bg-white px-2 py-3 focus:border-2 focus:border-black"
+                placeholder="Digite a bio do seu perfil"
+                value={bio}
+                onChange={(e) => setBio(e.target.value)}
+              />
+            </fieldset>
+            <button
+              type="submit"
+              className="ml-auto mt-3 block min-w-[90px] rounded-full bg-indigo-600 px-6 py-[10px] text-white disabled:cursor-not-allowed"
+              disabled={!isFormChanged || isSending}
+            >
+              {isSending ? (
+                <div className="mx-auto h-5 w-5 animate-spin rounded-full border-4 border-white border-t-transparent"></div>
+              ) : (
+                "Enviar"
+              )}
+            </button>
           </form>
         </AccordionContent>
       </AccordionItem>

@@ -11,7 +11,9 @@ import { LoadingAnimation } from "../components/loading-animation";
 export const CustomizePage = () => {
   const { user } = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(false);
-  const [profileData, setProfileData] = useState<UserProfileType | null>(null);
+  const [profileData, setProfileData] = useState<UserProfileType>(
+    {} as UserProfileType,
+  );
 
   const navigate = useNavigate();
 
