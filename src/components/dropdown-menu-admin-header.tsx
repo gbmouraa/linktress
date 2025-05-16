@@ -81,15 +81,21 @@ export function DropdownMenuAdminHeader() {
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuGroup className="space-y-2">
+        <DropdownMenuGroup className="space-y-[2px]">
           <DropdownMenuItem>
-            <Link to="/admin" className="flex items-center gap-x-2">
+            <Link
+              to="/admin"
+              className="flex w-full items-center gap-x-2 rounded-full py-2 pl-3 transition-colors hover:bg-zinc-200"
+            >
               <img src={homeIcon} alt="home icon" width={20} />
               Home
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <Link to="/admin/edit" className="flex items-center gap-x-2">
+            <Link
+              to="/admin/edit"
+              className="flex w-full items-center gap-x-2 rounded-full py-2 pl-3 transition-colors hover:bg-zinc-200"
+            >
               <img src={pencilIcon} alt="pencil icon" width={20} />
               Editar linktress
             </Link>
@@ -97,7 +103,7 @@ export function DropdownMenuAdminHeader() {
           <DropdownMenuItem>
             <Link
               to="/admin/customize-page"
-              className="flex items-center gap-x-2"
+              className="flex w-full items-center gap-x-2 rounded-full py-2 pl-3 transition-colors hover:bg-zinc-200"
             >
               <img src={customizeIcon} alt="customize icon" width={20} />
               Customizar página
@@ -106,7 +112,10 @@ export function DropdownMenuAdminHeader() {
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
-          <button className="mt-2 flex gap-x-2" onClick={handleLogout}>
+          <button
+            className="mt-1 flex w-full gap-x-2 rounded-full py-2 pl-3 hover:bg-zinc-200"
+            onClick={handleLogout}
+          >
             <img src={exitIcon} alt="exit icon" />
             Sair
           </button>
