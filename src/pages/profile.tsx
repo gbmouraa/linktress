@@ -28,33 +28,43 @@ export const Profile = () => {
     getProfile();
   }, [profile, navigate]);
 
+  const bgIsAnImage = profileData?.pageBg.startsWith("#") ? false : true;
+
   if (isLoading) {
     return <LoadingAnimation />;
   }
 
   return (
     <div
-      className="h-screen w-full pt-5"
-      style={{ backgroundColor: profileData?.pageBg || "#ffffff" }}
+      className={`h-screen w-full md:py-5 ${bgIsAnImage && "default-gradient-profile-page"}`}
+      style={{ backgroundColor: bgIsAnImage ? "#d8d8d8" : profileData?.pageBg }}
     >
       <section
         aria-label="Página do usuário"
-        className="mx-auto w-full max-w-[580px] px-4"
+        className={`mx-auto h-full w-full max-w-[580px] px-4 py-5 md:rounded-xl ${bgIsAnImage ? "bg-cover bg-center bg-no-repeat" : ""}`}
+        style={
+          bgIsAnImage
+            ? { backgroundImage: `url('${profileData?.pageBg}')` }
+            : { backgroundColor: profileData?.pageBg }
+        }
       >
         <header>
           <div className="flex items-center justify-between">
             <Link to="/">
-              <PiLinktreeLogoLight color="#fff" size={40} />
+              <PiLinktreeLogoLight
+                color={profileData?.pageBg === "#FFF" ? "#000" : "#FFF"}
+                size={40}
+              />
             </Link>
             <AlertDialogProfilePage
-              username={profileData?.username}
+              username={profileData?.name || profileData?.username}
               profileImgURL={profileData?.profileImageURL}
               profileURL={`"https://linktress/${profileData?.username}`}
             />
           </div>
         </header>
         <main className="flex flex-col items-center py-10">
-          <div className="text-center">
+          <div className="flex flex-col items-center text-center">
             {profileData?.profileImageURL ? (
               <img
                 src={profileData?.profileImageURL}
@@ -64,11 +74,18 @@ export const Profile = () => {
             ) : (
               <FaUserCircle size={96} className="text-zinc-100" />
             )}
-            <span className="mt-3 inline-block text-2xl font-bold text-white">
+            <span
+              className={`mt-3 inline-block text-2xl font-extrabold ${profileData?.pageBg !== "#FFF" ? "text-white" : "text-black"}`}
+            >
               {profileData?.name !== ""
                 ? profileData?.name
                 : profileData.username}
             </span>
+            <p
+              className={`mt-3 text-sm font-medium ${profileData?.pageBg !== "#FFF" ? "text-white" : "text-black"}`}
+            >
+              {profileData?.bio ? profileData.bio : ""}
+            </p>
           </div>
           {/* Links */}
           <div>{/* userData?.links.length > 0 && */}</div>

@@ -28,7 +28,7 @@ export const AlertDialogProfilePage = ({
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button className="h-10 w-10 rounded-full p-0">
+        <Button className="h-10 w-10 rounded-full bg-black/50 p-0">
           <Ellipsis color="#fff" size={20} />
         </Button>
       </AlertDialogTrigger>

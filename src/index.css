@@ -10,6 +10,12 @@ body {
   font-family: "Montserrat", sans-serif;
 }
 
+.default-gradient-profile-page {
+  background: #ece9e6;
+  background: -webkit-linear-gradient(to right, #ffffff, #d8d8d8);
+  background: linear-gradient(to right, #ffffff, #d8d8d8);
+}
+
 .spinner {
   font-size: 80px;
   width: 1em;
@@ -345,8 +351,6 @@ body {
   }
 }
 
-
-
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -402,8 +406,6 @@ body {
     --chart-5: 340 75% 55%;
   }
 }
-
-
 
 @layer base {
   * {
