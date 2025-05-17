@@ -125,6 +125,13 @@ export const EditPageHeader = ({ data }: EditHeaderProps) => {
       setProfileImagePreview(null);
     } catch (error) {
       console.error("Não foi póssivel atualizar seu perfil:", error);
+      toast("Erro", {
+        description: "Não foi póssivel atualizar seu perfil, tente novamente",
+        action: {
+          label: "Entendi",
+          onClick: () => {},
+        },
+      });
     } finally {
       setIsSending(false);
     }
@@ -269,7 +276,7 @@ export const EditPageHeader = ({ data }: EditHeaderProps) => {
               {isSending ? (
                 <div className="mx-auto h-5 w-5 animate-spin rounded-full border-4 border-white border-t-transparent"></div>
               ) : (
-                "Enviar"
+                "Salvar"
               )}
             </button>
           </form>
