@@ -4,6 +4,7 @@ import { IoMdClose } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 import customizePageIcon from "../assets/edit-page-icons/customize-page-icon.png";
 import { EditPageHeader } from "../components/edit-page-header";
+import { EditPageBackground } from "../components/edit-page-background";
 import { UserProfileType } from "../types";
 import { getUserProfile } from "../utils/firebase";
 import { LoadingAnimation } from "../components/loading-animation";
@@ -37,7 +38,7 @@ export const CustomizePage = () => {
 
   return (
     <div>
-      <main className="mx-auto w-full max-w-[624px] px-5 pt-6">
+      <main className="mx-auto w-full max-w-[624px] px-5 pb-10 pt-6">
         <Link
           to="/admin/edit-page"
           className="ml-auto flex h-10 w-10 items-center justify-center rounded-full bg-zinc-100 transition-colors hover:bg-zinc-200"
@@ -52,9 +53,12 @@ export const CustomizePage = () => {
             a aplicar.
           </p>
         </div>
-        <div className="mt-6">
+        <div className="mt-6 flex flex-col space-y-4">
           <section id="costumize-header">
             <EditPageHeader data={profileData} />
+          </section>
+          <section id="costumize-bg">
+            <EditPageBackground data={profileData} />
           </section>
         </div>
       </main>
