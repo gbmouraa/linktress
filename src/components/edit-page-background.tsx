@@ -143,7 +143,7 @@ export const EditPageBackground = ({ data }: EditPageBackgroundProps) => {
                       />
                       <img
                         className="block w-full max-w-[150px] rounded-xl"
-                        src={item.value}
+                        src={item.path}
                         alt="Wallpaper"
                       />
                     </label>
