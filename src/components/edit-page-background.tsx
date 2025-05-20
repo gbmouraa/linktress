@@ -41,9 +41,9 @@ export const EditPageBackground = ({ data }: EditPageBackgroundProps) => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
 
     if (user?.username) {
+      setIsLoading(true);
       try {
         await setDoc(
           doc(db, "users", user?.username),
