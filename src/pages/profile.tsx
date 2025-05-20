@@ -6,9 +6,18 @@ import { PiLinktreeLogoLight } from "react-icons/pi";
 import { AlertDialogProfilePage } from "../components/alert-dialog-profile-page";
 import { FaUserCircle } from "react-icons/fa";
 import { UserProfileType } from "../types";
+import { collection, doc, getDocs } from "firebase/firestore";
+import { db } from "../services/firebase-connection";
+
+type LinkType = {
+  id: string;
+  name: string;
+  url: string;
+};
 
 export const Profile = () => {
   const [profileData, setProfileData] = useState<UserProfileType | null>(null);
+  const [links, setLinks] = useState<LinkType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { profile } = useParams();
 
@@ -27,6 +36,26 @@ export const Profile = () => {
     };
     getProfile();
   }, [profile, navigate]);
+
+  useEffect(() => {
+    const getLinks = async () => {
+      const userRef = doc(db, "users", profile!);
+      const linksRef = collection(userRef, "links");
+      const snapshot = await getDocs(linksRef);
+
+      if (snapshot.empty) return;
+
+      const list = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        name: doc.data().name,
+        url: doc.data().url,
+      }));
+
+      setLinks(list);
+    };
+
+    getLinks();
+  }, [profile]);
 
   const bgIsAnImage = profileData?.pageBg.startsWith("#") ? false : true;
 
@@ -87,8 +116,23 @@ export const Profile = () => {
               {profileData?.bio ? profileData.bio : ""}
             </p>
           </div>
-          {/* Links */}
-          <div>{/* userData?.links.length > 0 && */}</div>
+          <ul className="mt-8 w-full space-y-3">
+            {links.map((item) => (
+              <li key={item.id}>
+                <Link
+                  target="_blank"
+                  to={item.url}
+                  className="block w-full rounded-full py-3 text-center font-medium transition-all hover:scale-105"
+                  style={{
+                    backgroundColor: `${profileData?.linkBg}`,
+                    color: `${profileData?.linkColor}`,
+                  }}
+                >
+                  {item.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
         </main>
       </section>
     </div>
