@@ -8,6 +8,7 @@ import { EditPageBackground } from "../components/edit-page-background";
 import { UserProfileType } from "../types";
 import { getUserProfile } from "../utils/firebase";
 import { LoadingAnimation } from "../components/loading-animation";
+import { EditPageLinks } from "../components/edit-page-links";
 
 export const CustomizePage = () => {
   const { user } = useContext(UserContext);
@@ -59,6 +60,9 @@ export const CustomizePage = () => {
           </section>
           <section id="costumize-bg">
             <EditPageBackground data={profileData} />
+          </section>
+          <section id="costumize-links">
+            <EditPageLinks data={profileData} />
           </section>
         </div>
       </main>

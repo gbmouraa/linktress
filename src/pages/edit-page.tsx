@@ -34,9 +34,12 @@ export const EditPage = () => {
             </div>
             <div>
               {/* TODO: fazer listagem de links cadastrados no banco */}
-              <button className="w-full rounded-full bg-white py-3 text-center font-medium transition-colors hover:bg-white/80">
+              <Link
+                to="/admin/add-link-button"
+                className="block w-full rounded-full bg-white py-3 text-center font-medium transition-colors hover:bg-white/80"
+              >
                 Adicionar +
-              </button>
+              </Link>
             </div>
           </div>
           <Link

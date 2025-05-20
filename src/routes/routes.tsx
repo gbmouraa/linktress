@@ -8,6 +8,7 @@ import { ProfileRoute } from "./profile-route";
 import { Profile } from "../pages/profile";
 import { EditPage } from "../pages/edit-page";
 import { CustomizePage } from "../pages/customize-page";
+import { AddLinkPage } from "../pages/add-link-page";
 import { NotFound } from "../pages/not-found";
 
 export const AppRoutes = () => {
@@ -46,6 +47,14 @@ export const AppRoutes = () => {
           element={
             <Private>
               <CustomizePage />
+            </Private>
+          }
+        />
+        <Route
+          path="/admin/add-link-button"
+          element={
+            <Private>
+              <AddLinkPage />
             </Private>
           }
         />
