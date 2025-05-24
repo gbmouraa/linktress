@@ -93,7 +93,7 @@ export function DropdownMenuAdminHeader() {
           </DropdownMenuItem>
           <DropdownMenuItem>
             <Link
-              to="/admin/edit"
+              to="/admin/edit-page"
               className="flex w-full items-center gap-x-2 rounded-full py-2 pl-3 transition-colors hover:bg-zinc-200"
             >
               <img src={pencilIcon} alt="pencil icon" width={20} />

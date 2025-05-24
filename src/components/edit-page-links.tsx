@@ -84,7 +84,7 @@ export const EditPageLinks = ({ data }: EditPageLinksProps) => {
           <EditPageTitle img={linkIcon} title="Links" />
         </AccordionTrigger>
         <AccordionContent>
-          <form className="mt-6 flex gap-6" onSubmit={handleSubmit}>
+          <form className="mt-6 flex flex-wrap gap-6" onSubmit={handleSubmit}>
             <label htmlFor="" className="flex-col">
               <span className="block text-base font-medium">Cor de Fundo</span>
               <input
