@@ -5,8 +5,10 @@ import { Link } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../contexts/user-context";
 import { IoEyeOutline } from "react-icons/io5";
-import { collection, doc, getDocs } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
 import { db } from "../services/firebase-connection";
+import { FaRegTrashCan } from "react-icons/fa6";
+import { toast } from "sonner";
 
 type LinkType = {
   id: string;
@@ -41,6 +43,32 @@ export const EditPage = () => {
     getLinks();
   }, [user?.username]);
 
+  const handleDeleteLink = async (id: string) => {
+    if (user?.username) {
+      try {
+        const linkRef = doc(db, "users", user.username, "links", id);
+        await deleteDoc(linkRef);
+        setLinks((prev) => prev.filter((link) => link.id !== id));
+        toast("Sucesso", {
+          description: "O link foi removido",
+          action: {
+            label: "Entendi",
+            onClick: () => {},
+          },
+        });
+      } catch (error) {
+        console.error("Erro ao deletar o link:", error);
+        toast("Erro", {
+          description: "Não foi possível remover o link, tente novamente",
+          action: {
+            label: "Entendi",
+            onClick: () => {},
+          },
+        });
+      }
+    }
+  };
+
   return (
     <div>
       <AdminHeader />
@@ -67,11 +95,16 @@ export const EditPage = () => {
             {links.length > 0 && (
               <ul className="mb-10 space-y-3">
                 {links.map((item) => (
-                  <li
-                    key={item.id}
-                    className="w-full rounded-full bg-white py-3 text-center font-medium"
-                  >
-                    {item.name}
+                  <li key={item.id} className="flex items-center gap-x-2">
+                    <span className="block w-full rounded-full bg-white py-3 text-center font-medium">
+                      {item.name}
+                    </span>
+                    <button
+                      className="flex min-h-10 min-w-10 cursor-pointer items-center justify-center rounded-full bg-white transition-opacity hover:opacity-80"
+                      onClick={() => handleDeleteLink(item.id)}
+                    >
+                      <FaRegTrashCan color="#ff0000" />
+                    </button>
                   </li>
                 ))}
               </ul>
