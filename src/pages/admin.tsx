@@ -30,10 +30,7 @@ export const Admin = () => {
             <span className="text-xs font-bold text-zinc-300 md:text-sm">
               Este é o link do seu perfil
             </span>
-            {/* TODO: adionar link após o deploy */}
-            <CopyProfileLinkButton
-              profileURL={`https://linktress/${user!.username}`}
-            />
+            <CopyProfileLinkButton username={`${user!.username}`} />
           </div>
         </main>
       </div>
