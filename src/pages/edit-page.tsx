@@ -78,14 +78,14 @@ export const EditPage = () => {
           <div className="mx-auto flex w-full max-w-[544px] flex-col gap-y-6 px-4 pt-8 md:max-w-[580px]">
             <div className="mb-6 flex justify-between">
               <Link
-                to="/admin/customize-page/#costumize-bg"
+                to="/admin/customize-page"
                 className="flex gap-x-2 rounded-full bg-gradient-to-b from-indigo-600 to-purple-500 px-5 py-3"
               >
                 <Palette color="#fff" size={16} />
                 <span className="text-xs text-white">Cores</span>
               </Link>
               <Link
-                to="/admin/customize-page/#costumize-header"
+                to="/admin/customize-page"
                 className="flex gap-x-2 rounded-full border border-white px-5 py-3"
               >
                 <PencilIcon color="#fff" size={16} />

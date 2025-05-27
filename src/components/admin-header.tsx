@@ -1,6 +1,4 @@
 import { PiLinktreeLogoLight } from "react-icons/pi";
-import { Link } from "react-router-dom";
-import { GoShare } from "react-icons/go";
 import { DropdownMenuAdminHeader } from "./dropdown-menu-admin-header";
 
 export const AdminHeader = () => {
@@ -13,14 +11,6 @@ export const AdminHeader = () => {
         </span>
       </div>
       <div className="flex items-center gap-x-5">
-        <Link
-          to="/share"
-          className="flex items-center gap-x-1 rounded-full bg-zinc-100 px-5 py-3 text-xs font-medium"
-        >
-          <GoShare size={16} />
-          Compartilhar
-        </Link>
-        {/* dropdown */}
         <div className="flex items-center">
           <DropdownMenuAdminHeader />
         </div>

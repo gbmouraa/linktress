@@ -20,6 +20,8 @@ import homeIcon from "@/assets/menu-icons/home_menu_icon.svg";
 import customizeIcon from "@/assets/menu-icons/customize_page_menu.svg";
 import pencilIcon from "@/assets/menu-icons/edit_sdwc_menu.svg";
 import exitIcon from "@/assets/menu-icons/logout_menu.svg";
+import { copyToClipboard } from "../utils/copy-to-clipboard";
+import { toast } from "sonner";
 
 export function DropdownMenuAdminHeader() {
   const { user, changeUser } = useContext(UserContext);
@@ -36,6 +38,18 @@ export function DropdownMenuAdminHeader() {
       } else {
         console.error("Unknown error:", error);
       }
+    }
+  };
+
+  const handleCopyToClipboard = () => {
+    if (user?.username) {
+      copyToClipboard(user.username);
+      toast("Url copiada", {
+        action: {
+          label: "Ok",
+          onClick: () => {},
+        },
+      });
     }
   };
 
@@ -67,14 +81,15 @@ export function DropdownMenuAdminHeader() {
             ) : (
               <FaUserCircle size={36} className="text-zinc-200" />
             )}
-            {/* TODO: adiconar nome do usuário */}
-            <span>{user!.username}</span>
+            <span>{user?.name ? user.name : user!.username}</span>
             <div className="flex items-center justify-center gap-x-5">
-              <Link to="" className="text-sm font-normal underline">
-                {`/linktress/${user?.username}`}
+              <Link
+                to={`https://linktress-pied.vercel.app/linktress/${user!.username}`}
+                className="text-sm font-normal underline"
+              >
+                https://linktress...
               </Link>
-              {/* TODO: add funcionalidade para copiar a url do perfil */}
-              <button>
+              <button onClick={() => handleCopyToClipboard()}>
                 <FaRegCopy />
               </button>
             </div>
