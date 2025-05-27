@@ -86,9 +86,9 @@ export const Profile = () => {
               />
             </Link>
             <AlertDialogProfilePage
-              username={profileData?.name || profileData?.username}
+              name={profileData?.name || profileData!.username}
               profileImgURL={profileData?.profileImageURL}
-              profileURL={`"https://linktress/${profileData?.username}`}
+              username={profileData?.username}
             />
           </div>
         </header>

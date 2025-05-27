@@ -15,11 +15,13 @@ import { CopyProfileLinkButton } from "../components/copy-profile-link-button";
 import { FaUserCircle } from "react-icons/fa";
 
 interface AlertDialogProfilePageProps {
+  name: string;
   username?: string;
   profileImgURL?: string | null;
 }
 
 export const AlertDialogProfilePage = ({
+  name,
   username,
   profileImgURL,
 }: AlertDialogProfilePageProps) => {
@@ -51,8 +53,7 @@ export const AlertDialogProfilePage = ({
           ) : (
             <FaUserCircle size={64} />
           )}
-          <span className="text-xs font-bold">{username}</span>
-          {/* TODO: adiocionar funcionalidade para copiar o link */}
+          <span className="text-xs font-bold">{name}</span>
           <CopyProfileLinkButton username={username!} />
         </div>
         <div className="rounded-xl bg-zinc-100 p-4 text-center">
