@@ -16,13 +16,11 @@ import { FaUserCircle } from "react-icons/fa";
 
 interface AlertDialogProfilePageProps {
   username?: string;
-  profileURL?: string;
   profileImgURL?: string | null;
 }
 
 export const AlertDialogProfilePage = ({
   username,
-  profileURL,
   profileImgURL,
 }: AlertDialogProfilePageProps) => {
   return (
@@ -55,7 +53,7 @@ export const AlertDialogProfilePage = ({
           )}
           <span className="text-xs font-bold">{username}</span>
           {/* TODO: adiocionar funcionalidade para copiar o link */}
-          <CopyProfileLinkButton profileURL={profileURL!} />
+          <CopyProfileLinkButton username={username!} />
         </div>
         <div className="rounded-xl bg-zinc-100 p-4 text-center">
           <span className="text-center text-xs font-bold">
