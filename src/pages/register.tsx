@@ -179,7 +179,7 @@ export const Register = () => {
             {isLoading ? (
               <div className="h-6 w-6 animate-spin rounded-full border-4 border-white border-t-transparent"></div>
             ) : (
-              "Entrar"
+              "Criar conta"
             )}
           </button>
         </form>
@@ -187,7 +187,7 @@ export const Register = () => {
           <p className="text-sm font-bold">
             Já possui uma conta?{" "}
             <Link to="/login" className="text-indigo-600 underline">
-              Criar conta
+              Entrar
             </Link>
           </p>
         </div>
