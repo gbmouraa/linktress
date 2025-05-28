@@ -187,7 +187,7 @@ export const Register = () => {
           <p className="text-sm font-bold">
             Já possui uma conta?{" "}
             <Link to="/login" className="text-indigo-600 underline">
-              Entrar
+              Criar conta
             </Link>
           </p>
         </div>
