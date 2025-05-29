@@ -1,54 +1,29 @@
-# React + TypeScript + Vite
+# Linktress
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este projeto é inpirado no [Linktree](https://linktr.ee/s/join-linktree-pro-for-free-ga?gclsrc=aw.ds&&utm_source=google&gad_source=1&gad_campaignid=21100095779&gbraid=0AAAAAoKs0uvyk2dmK9glYUML-oRkNrYsM&utm_medium=cpc&utm_campaign=21100095779&utm_term=linktree&utm_content=162662017569&device=c&matchtype=e&network=g&placement&gclid=CjwKCAjw6NrBBhB6EiwAvnT_rgvJgXRwwsu-kpjLG3TPCnCNQ7CnjiwX9OmJOkl2BtX2C3aWQXftJhoCUggQAvD_BwE&gclsrc=aw.ds) e foi desenvolvido para fins de aprendizado.
 
-Currently, two official plugins are available:
+### O projeto consiste principalmente nas seguintes funcionalidades:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Cadastro/Login de Usuário – Autenticação com e-mail/senha utilizando o Firebase.
+- Criação de Perfil Personalizado – Nome, bio, upload de imagem de perfil e tema visual.
+- Gerenciamento de Links – Adição, e exclusão de múltiplos links.
+- Página Pública Responsiva – Geração de uma URL única com os links do usuário.
+- Painel Admin/Usuário – Interface para gerenciar o perfil e visualizar métricas.
 
-## Expanding the ESLint configuration
+![](./public/screenshot.png)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Site: [https://linktress-pied.vercel.app/](https://linktress-pied.vercel.app/)
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+### Tecnologias utilizadas 💻
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- Vite
+- React
+- Typescript
+- Tailwind
+- Firebase
+- Gerenciamento de estado usando o context-api
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### 🙋 Autor
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+- **Portfólio:** [Gabriel Moura Dev](https://portfolio-gabrieldev.vercel.app/)
+- **Linkedin:** [Gabriel Moura](https://www.linkedin.com/in/gabriel-moura-b63382161/)
