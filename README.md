@@ -8,7 +8,7 @@ Este projeto é inspirado no [Linktree](https://linktr.ee/s/join-linktree-pro-fo
 - Criação de Perfil Personalizado – Nome, bio, upload de imagem de perfil e tema visual.
 - Gerenciamento de Links – Adição, e exclusão de múltiplos links.
 - Página Pública Responsiva – Geração de uma URL única com os links do usuário.
-- Painel Admin/Usuário – Interface para gerenciar o perfil e visualizar métricas.
+- Painel Admin/Usuário – Interface para gerenciar o perfil.
 
 ![](./public/screenshot.png)
 
