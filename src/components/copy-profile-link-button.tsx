@@ -1,5 +1,3 @@
-import { useContext } from "react";
-import { UserContext } from "../contexts/user-context";
 import { FaRegCopy } from "react-icons/fa";
 import { copyToClipboard } from "../utils/copy-to-clipboard";
 import { toast } from "sonner";
@@ -15,18 +13,14 @@ export const CopyProfileLinkButton = ({
 }: CopyProfileLinkButtonProps) => {
   const url = "https://linktress-pied.vercel.app/linktress/";
 
-  const { user } = useContext(UserContext);
-
   const handleCopyToClipboard = () => {
-    if (user?.username) {
-      copyToClipboard(user.username);
-      toast("Url copiada", {
-        action: {
-          label: "Ok",
-          onClick: () => {},
-        },
-      });
-    }
+    copyToClipboard(username);
+    toast("Url copiada", {
+      action: {
+        label: "Ok",
+        onClick: () => {},
+      },
+    });
   };
 
   return (
