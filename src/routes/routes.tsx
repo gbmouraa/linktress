@@ -10,6 +10,7 @@ import { EditPage } from "../pages/edit-page";
 import { CustomizePage } from "../pages/customize-page";
 import { AddLinkPage } from "../pages/add-link-page";
 import { NotFound } from "../pages/not-found";
+import { Share } from "../pages/share";
 
 export const AppRoutes = () => {
   return (
@@ -58,6 +59,7 @@ export const AppRoutes = () => {
             </Private>
           }
         />
+        <Route path="/admin/share" element={<Share />} />
         <Route path="/*" element={<NotFound />} />
       </Routes>
     </div>
