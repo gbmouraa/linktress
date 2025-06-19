@@ -15,7 +15,7 @@ export const CopyProfileLinkButton = ({
 
   const handleCopyToClipboard = () => {
     copyToClipboard(username);
-    toast("Url copiada", {
+    toast("Link copiado.", {
       action: {
         label: "Ok",
         onClick: () => {},

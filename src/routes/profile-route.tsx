@@ -3,12 +3,6 @@ import { useParams, Navigate } from "react-router-dom";
 import { getUserNamesInCollection } from "../utils/firebase";
 import { LoadingAnimation } from "../components/loading-animation";
 
-// const pageData = {
-//   backgorund,
-//   ImTextColor,
-//   links: [{ name, url }, socialMedias],
-// };
-
 interface ProfileRouteProps {
   children: ReactNode;
 }
