@@ -9,6 +9,7 @@ import { UserProfileType } from "../types";
 import { getUserProfile } from "../utils/firebase";
 import { LoadingAnimation } from "../components/loading-animation";
 import { EditPageLinks } from "../components/edit-page-links";
+import { Accordion, AccordionItem } from "../components/ui/accordion";
 
 export const CustomizePage = () => {
   const { user } = useContext(UserContext);
@@ -54,17 +55,30 @@ export const CustomizePage = () => {
             a aplicar.
           </p>
         </div>
-        <div className="mt-6 flex flex-col space-y-4">
-          <section id="costumize-header">
+        <Accordion
+          type="single"
+          collapsible
+          className="mt-6 flex flex-col space-y-4"
+        >
+          <AccordionItem
+            value="header"
+            className="w-full rounded-xl bg-zinc-100 p-6"
+          >
             <EditPageHeader data={profileData} />
-          </section>
-          <section id="costumize-bg">
+          </AccordionItem>
+          <AccordionItem
+            value="background"
+            className="w-full rounded-xl bg-zinc-100 p-6"
+          >
             <EditPageBackground data={profileData} />
-          </section>
-          <section id="costumize-links">
+          </AccordionItem>
+          <AccordionItem
+            value="links"
+            className="w-full rounded-xl bg-zinc-100 p-6"
+          >
             <EditPageLinks data={profileData} />
-          </section>
-        </div>
+          </AccordionItem>
+        </Accordion>
       </main>
     </div>
   );

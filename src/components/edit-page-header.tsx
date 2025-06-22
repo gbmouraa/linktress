@@ -8,12 +8,7 @@ import {
   getDownloadURL,
   deleteObject,
 } from "firebase/storage";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import { AccordionContent, AccordionTrigger } from "@/components/ui/accordion";
 import { toast } from "sonner";
 import { EditPageTitle } from "./edit-page-title";
 import headerIcon from "@/assets/edit-page-icons/header.svg";
@@ -183,105 +178,99 @@ export const EditPageHeader = ({ data }: EditHeaderProps) => {
   };
 
   return (
-    <Accordion
-      type="single"
-      collapsible
-      className="w-full rounded-xl bg-zinc-100 p-6"
-    >
-      <AccordionItem value="item-1">
-        <AccordionTrigger>
-          <EditPageTitle img={headerIcon} title="Cabeçalho da página" />
-        </AccordionTrigger>
-        <AccordionContent>
-          <form className="mt-6" onSubmit={handleSubmit}>
-            <fieldset className="mb-6">
-              <span className="text-base font-medium">Foto de Perfil</span>
-              <div className="mt-4 flex gap-x-4">
-                <div>
-                  {profileImgPreview ? (
-                    <img
-                      src={profileImgPreview}
-                      alt="Imagem do usuário"
-                      className="h-24 w-24 rounded-full object-cover"
-                    />
-                  ) : user?.profileImageURL ? (
-                    <img
-                      src={user.profileImageURL}
-                      alt="Imagem do usuário"
-                      className="h-24 w-24 rounded-full object-cover"
-                    />
-                  ) : (
-                    <FaUserCircle size={96} className="text-zinc-200" />
-                  )}
-                </div>
-                <div className="flex-1">
-                  <label className="block w-full max-w-[432px] cursor-pointer rounded-full bg-black py-[10px] text-center text-white">
-                    <input
-                      type="file"
-                      accept="image/*"
-                      className="sr-only"
-                      onChange={handleFile}
-                      ref={fileInputRef}
-                    />
-                    Escolher uma imagem
-                  </label>
-                  <button
-                    type="button"
-                    className="mt-2 block h-10 w-full max-w-[432px] cursor-pointer rounded-full border border-black bg-transparent py-[10px] text-center"
-                    onClick={handleRemoveImg}
-                    disabled={removeImgFromDB}
-                  >
-                    {removeImgFromDB ? (
-                      <div className="mx-auto h-5 w-5 animate-spin rounded-full border-4 border-black border-t-transparent"></div>
-                    ) : (
-                      "Remover"
-                    )}
-                  </button>
-                </div>
+    <>
+      <AccordionTrigger>
+        <EditPageTitle img={headerIcon} title="Cabeçalho da página" />
+      </AccordionTrigger>
+      <AccordionContent className="data-[state=closed]">
+        <form className="mt-6" onSubmit={handleSubmit}>
+          <fieldset className="mb-6">
+            <span className="text-base font-medium">Foto de Perfil</span>
+            <div className="mt-4 flex gap-x-4">
+              <div>
+                {profileImgPreview ? (
+                  <img
+                    src={profileImgPreview}
+                    alt="Imagem do usuário"
+                    className="h-24 w-24 rounded-full object-cover"
+                  />
+                ) : user?.profileImageURL ? (
+                  <img
+                    src={user.profileImageURL}
+                    alt="Imagem do usuário"
+                    className="h-24 w-24 rounded-full object-cover"
+                  />
+                ) : (
+                  <FaUserCircle size={96} className="text-zinc-200" />
+                )}
               </div>
-            </fieldset>
-            <fieldset className="mb-3">
-              <label
-                htmlFor="profile-name"
-                className="mb-2 block text-base font-medium"
-              >
-                Nome do perfil
-              </label>
-              <input
-                type="text"
-                id="profile-name"
-                className="w-full rounded-lg border border-zinc-300 bg-white px-2 py-3 focus:border-2 focus:border-black"
-                placeholder="Digite o nome do seu perfil"
-                value={profileName}
-                onChange={(e) => setProfileName(e.target.value)}
-              />
-            </fieldset>
-            <fieldset>
-              <label htmlFor="bio" className="mb-2 block text-base font-medium">
-                Bio
-              </label>
-              <textarea
-                id="bio"
-                className="max-h-[200px] min-h-[150px] w-full rounded-lg border border-zinc-300 bg-white px-2 py-3 focus:border-2 focus:border-black"
-                placeholder="Digite a bio do seu perfil"
-                value={bio}
-                onChange={(e) => setBio(e.target.value)}
-              />
-            </fieldset>
-            <button
-              type="submit"
-              className="ml-auto mt-3 block min-w-[90px] rounded-full bg-indigo-600 px-6 py-[10px] text-white disabled:cursor-not-allowed"
-              disabled={!isFormChanged || isSending}
+              <div className="flex-1">
+                <label className="block w-full max-w-[432px] cursor-pointer rounded-full bg-black py-[10px] text-center text-white">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="sr-only"
+                    onChange={handleFile}
+                    ref={fileInputRef}
+                  />
+                  Escolher uma imagem
+                </label>
+                <button
+                  type="button"
+                  className="mt-2 block h-10 w-full max-w-[432px] cursor-pointer rounded-full border border-black bg-transparent py-[10px] text-center"
+                  onClick={handleRemoveImg}
+                  disabled={removeImgFromDB}
+                >
+                  {removeImgFromDB ? (
+                    <div className="mx-auto h-5 w-5 animate-spin rounded-full border-4 border-black border-t-transparent"></div>
+                  ) : (
+                    "Remover"
+                  )}
+                </button>
+              </div>
+            </div>
+          </fieldset>
+          <fieldset className="mb-3">
+            <label
+              htmlFor="profile-name"
+              className="mb-2 block text-base font-medium"
             >
-              {isSending ? (
-                <div className="mx-auto h-5 w-5 animate-spin rounded-full border-4 border-white border-t-transparent"></div>
-              ) : (
-                "Salvar"
-              )}
-            </button>
-          </form>
-        </AccordionContent>
-      </AccordionItem>
-    </Accordion>
+              Nome do perfil
+            </label>
+            <input
+              type="text"
+              id="profile-name"
+              className="w-full rounded-lg border border-zinc-300 bg-white px-2 py-3 focus:border-2 focus:border-black"
+              placeholder="Digite o nome do seu perfil"
+              value={profileName}
+              onChange={(e) => setProfileName(e.target.value)}
+            />
+          </fieldset>
+          <fieldset>
+            <label htmlFor="bio" className="mb-2 block text-base font-medium">
+              Bio
+            </label>
+            <textarea
+              id="bio"
+              className="max-h-[200px] min-h-[150px] w-full rounded-lg border border-zinc-300 bg-white px-2 py-3 focus:border-2 focus:border-black"
+              placeholder="Digite a bio do seu perfil"
+              value={bio}
+              onChange={(e) => setBio(e.target.value)}
+            />
+          </fieldset>
+          <button
+            type="submit"
+            className="ml-auto mt-3 block min-w-[90px] rounded-full bg-indigo-600 px-6 py-[10px] text-white disabled:cursor-not-allowed"
+            disabled={!isFormChanged || isSending}
+          >
+            {isSending ? (
+              <div className="mx-auto h-5 w-5 animate-spin rounded-full border-4 border-white border-t-transparent"></div>
+            ) : (
+              "Salvar"
+            )}
+          </button>
+        </form>
+      </AccordionContent>
+    </>
   );
 };
