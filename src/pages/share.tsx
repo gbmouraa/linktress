@@ -5,6 +5,7 @@ import { CopyProfileLinkButton } from "../components/copy-profile-link-button";
 import { Link } from "react-router-dom";
 import { IoMdClose } from "react-icons/io";
 import { LoadingAnimation } from "../components/loading-animation";
+import whatsappIcon from "../assets/whatsapp_colored.svg";
 
 export const Share = () => {
   const { user } = useContext(UserContext);
@@ -36,6 +37,18 @@ export const Share = () => {
           </span>
           <span className="block max-w-xs overflow-hidden text-ellipsis whitespace-nowrap font-medium text-white">{`https://linktress-pied.vercel.app/linktress/${user.username}`}</span>
           <CopyProfileLinkButton username={user.username} />
+        </div>
+        <div className="mt-6">
+          <span>Coloque seu link nas redes sociais</span>
+          <a
+            href={`https://api.whatsapp.com/send/?text=${encodeURIComponent(
+              `https://linktress-pied.vercel.app/linktress/${user.username}`,
+            )}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img src={whatsappIcon} alt="Whatsapp logo" />
+          </a>
         </div>
       </div>
     </div>
