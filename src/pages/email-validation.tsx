@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { LoginIllustration } from "../components/login-illustration";
 import { LoginTitle } from "../components/login-title";
-import { onAuthStateChanged, sendEmailVerification } from "firebase/auth";
+import { sendEmailVerification } from "firebase/auth";
 import { auth } from "../services/firebase-connection";
 
 export const EmailValidation = () => {
