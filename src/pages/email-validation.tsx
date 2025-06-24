@@ -9,7 +9,7 @@ export const EmailValidation = () => {
   const { email } = useParams();
   const navigate = useNavigate();
 
-  const [emailVerified, setEmailVerified] = useState(true);
+  const [emailVerified, setEmailVerified] = useState(false);
   const [seconds, setSeconds] = useState(30);
 
   useEffect(() => {
