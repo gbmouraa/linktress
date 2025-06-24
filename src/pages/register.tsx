@@ -3,7 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { isValidEmail } from "@/utils/email-validation";
 import { addUserToFirebase, getUserNamesInCollection } from "@/utils/firebase";
 import { auth } from "@/services/firebase-connection";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  updateProfile,
+  sendEmailVerification,
+} from "firebase/auth";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
 import { UserContext } from "../contexts/user-context";
@@ -63,6 +67,7 @@ export const Register = () => {
 
       await addUserToFirebase(username, user.uid, email);
       await updateProfile(auth.currentUser!, { displayName: username });
+      await sendEmailVerification(auth.currentUser!);
 
       const userData = {
         uid: user.uid,
@@ -73,7 +78,7 @@ export const Register = () => {
 
       changeUser(userData);
       userStorage(userData);
-      navigate("/admin");
+      navigate(`/email-validation/${encodeURIComponent(email)}`);
     } catch (error) {
       console.error(error);
       toast("Ops, algo deu errado", {
