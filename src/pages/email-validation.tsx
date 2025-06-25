@@ -13,26 +13,16 @@ export const EmailValidation = () => {
   const [seconds, setSeconds] = useState(30);
 
   useEffect(() => {
-    if (email === "true") {
-      setEmailVerified(true);
+    if (auth.currentUser?.reload()) {
+      if (auth.currentUser?.emailVerified) {
+        setEmailVerified(true);
 
-      setTimeout(() => {
-        navigate("/admin");
-      }, 1000);
+        setTimeout(() => {
+          navigate("/admin");
+        }, 1000);
+      }
     }
-
-    // const unsub = onAuthStateChanged(auth, (user) => {
-    //   if (user && user.emailVerified) {
-    //     setEmailVerified(true);
-
-    //     setTimeout(() => {
-    //       navigate("/admin");
-    //     }, 1000);
-    //   }
-    // });
-
-    // return () => unsub();
-  }, [navigate, email]);
+  }, [navigate]);
 
   useEffect(() => {
     if (seconds === 0) return;
