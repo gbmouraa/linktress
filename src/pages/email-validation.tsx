@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { LoginIllustration } from "../components/login-illustration";
 import { LoginTitle } from "../components/login-title";
 import { sendEmailVerification, ActionCodeSettings } from "firebase/auth";
@@ -7,6 +7,7 @@ import { auth } from "../services/firebase-connection";
 
 export const EmailValidation = () => {
   const { email } = useParams();
+  const navigate = useNavigate();
 
   const [seconds, setSeconds] = useState(30);
 
@@ -24,6 +25,18 @@ export const EmailValidation = () => {
   useEffect(() => {
     handleSendVerification();
   }, []);
+
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      if (auth.currentUser) {
+        await auth.currentUser.reload();
+        if (auth.currentUser.emailVerified) {
+          navigate("/admin");
+        }
+      }
+    }, 2000);
+    return () => clearInterval(interval);
+  }, [navigate]);
 
   useEffect(() => {
     if (seconds === 0) return;
