@@ -74,6 +74,7 @@ export const Register = () => {
         username: username,
         name: null,
         profileImageURL: null,
+        emailVerified: false,
       };
 
       changeUser(userData);

@@ -15,6 +15,7 @@ export const UserContextProvider = ({ children }: UserContextProviderProps) => {
 
   useEffect(() => {
     const userStorage = localStorage.getItem("@linktress");
+    // adcionar emailVerified no userType
 
     if (userStorage) {
       setUser(JSON.parse(userStorage) as UserType);

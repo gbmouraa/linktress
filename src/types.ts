@@ -18,4 +18,5 @@ export type UserType = {
   username: string | null;
   name: string | null;
   profileImageURL: string | null;
+  emailVerified: boolean;
 };

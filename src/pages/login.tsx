@@ -40,6 +40,7 @@ export const Login = () => {
         username: user.displayName,
         name: snapshot!.name,
         profileImageURL: snapshot!.profileImageURL,
+        emailVerified: user.emailVerified,
       };
 
       changeUser(userData);
